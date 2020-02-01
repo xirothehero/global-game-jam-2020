@@ -14,31 +14,60 @@ public class Enemy : MonoBehaviour
 
     float returnCount;
     bool lostSight = false;
+    GameObject playerObj;
+
+    public float attackCoolDown = 2f;
+    float orgAttackCoolDown;
 
     void Start()
     {
-        returnCount = countDown;    
+        returnCount = countDown;
+        orgAttackCoolDown = attackCoolDown;
     }
 
     void Update()
     {
+        Vector2 thisPos = transform.position;
+        Vector2 posToGo = new Vector2(thisPos.x,thisPos.y);
         if (state == "patrolling")
         {
-            Vector2 thisPos = transform.position;
             if (moveLeft)
-                transform.position = new Vector2(thisPos.x - speedOfEnemy, thisPos.y);
+                posToGo = new Vector2(thisPos.x - speedOfEnemy, thisPos.y);
             else
-                transform.position = new Vector2(thisPos.x + speedOfEnemy, thisPos.y);
+                posToGo = new Vector2(thisPos.x + speedOfEnemy, thisPos.y);
         }
+        else if (state == "chasing" && Vector2.Distance(posToGo, playerObj.transform.position) > 1.6f)
+        {
+            posToGo = Vector2.MoveTowards(thisPos,playerObj.transform.position, 0.05f);
+            attackCoolDown = 0;
+        }
+        else
+        {
+            attackCoolDown -= Time.deltaTime;
+            if (attackCoolDown <= 0)
+            {
+                playerObj.GetComponent<Player>().health -= playerObj.GetComponent<Player>().damageTaken;
+                attackCoolDown = orgAttackCoolDown;
+            }
+            if (playerObj.GetComponent<Player>().health <= 0)
+            {
+                state = "patrolling";
+                lostSight = false;
+            }
+
+        }
+        //Debug.Log(state);
+
+        transform.position = new Vector2(posToGo.x, thisPos.y);
 
         if (lostSight && countDown > 0)
             countDown -= Time.deltaTime;
-        else if (countDown <= 0 || !lostSight)
+        else if (countDown <= 0)
         {
             countDown = returnCount;
             state = "patrolling";
+            lostSight = false;
         }
-
    
     }
 
@@ -53,15 +82,20 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "player")
+        if (collision.gameObject.tag == "Player")
         {
             state = "chasing";
             lostSight = false;
+            playerObj = collision.gameObject;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
+        {
             lostSight = true;
+        }
+
+      
     }
 }
