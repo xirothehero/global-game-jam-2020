@@ -10,9 +10,11 @@ public class Player : MonoBehaviour
     [Header("Player stats")]
     public float walkSpeed = 0.1f;
     public float runSpeed = 0.3f;
-    public float jumpSpeed = 0.3f;
+    public float jumpForce = 5f;
     public int health = 100;
     public int damageTaken = 10;
+
+    bool onGround = true;
 
     Vector2 orgPos;
     Rigidbody2D rb;
@@ -21,7 +23,6 @@ public class Player : MonoBehaviour
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         runSpeed *= 10;
-        jumpSpeed *= 10;
         walkSpeed *= 10;
         orgPos = this.transform.position;
     }
@@ -37,16 +38,25 @@ public class Player : MonoBehaviour
             speedRate = walkSpeed;
 
         if (Input.GetKey(KeyCode.D))
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
             this.transform.position = new Vector2(curPos.x + speedRate, curPos.y);
-
+        }
         if (Input.GetKey(KeyCode.A))
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().flipX = true;
             this.transform.position = new Vector2(curPos.x - speedRate, curPos.y);
-        
-        if (Input.GetKeyDown(KeyCode.W))
-            rb.AddForce(new Vector2(0, jumpSpeed * Time.deltaTime));
+        }
 
+        //Debug.Log(rb.velocity.y);
+
+        if (Input.GetKeyDown(KeyCode.W) && rb.velocity.y == 0)
+        {
+            onGround = false;
+            rb.velocity = Vector2.up * jumpForce;
+        }
     }
-    
+
     void CreateObject() {
     
     }
@@ -59,12 +69,18 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        
         if (collision.gameObject.tag == "kill")
             health -= 100;
-        else if (collision.gameObject.tag == "enemy")
+        
+        if (collision.gameObject.tag == "enemy")
             health -= damageTaken;
-        else if (collision.gameObject.tag == "gameOver")
+        
+        if (collision.gameObject.tag == "gameOver")
             SceneManager.LoadScene("lose");
+        
+        if (collision.gameObject.tag == "ground")
+            onGround = true;
         
         if (health <= 0)
             Respawn();
