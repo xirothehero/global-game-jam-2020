@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     [Header("Player stats")]
     public float walkSpeed = 0.1f;
     public float runSpeed = 0.3f;
-    public float jumpSpeed = 0.3f;
+    public float jumpForce = 5f;
     public int health = 100;
     public int damageTaken = 10;
 
@@ -23,7 +23,6 @@ public class Player : MonoBehaviour
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         runSpeed *= 10;
-        jumpSpeed *= 10;
         walkSpeed *= 10;
         orgPos = this.transform.position;
     }
@@ -39,15 +38,22 @@ public class Player : MonoBehaviour
             speedRate = walkSpeed;
 
         if (Input.GetKey(KeyCode.D))
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
             this.transform.position = new Vector2(curPos.x + speedRate, curPos.y);
-
+        }
         if (Input.GetKey(KeyCode.A))
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().flipX = true;
             this.transform.position = new Vector2(curPos.x - speedRate, curPos.y);
+        }
 
-        if (Input.GetKeyDown(KeyCode.W) && onGround)
+        //Debug.Log(rb.velocity.y);
+
+        if (Input.GetKeyDown(KeyCode.W) && rb.velocity.y == 0)
         {
             onGround = false;
-            this.transform.position = new Vector2(curPos.x, curPos.y + jumpSpeed);
+            rb.velocity = Vector2.up * jumpForce;
         }
     }
 
