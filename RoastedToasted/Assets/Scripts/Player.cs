@@ -23,8 +23,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
-        runSpeed *= 10;
-        walkSpeed *= 10;
         orgPos = this.transform.position;
         //animator = GetComponent<Animator>();
     }
@@ -36,10 +34,12 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
             speedRate = runSpeed;
-        else
+        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
             speedRate = walkSpeed;
 
+
         animator.SetFloat("Speed", speedRate);
+
 
         if (Input.GetKey(KeyCode.D))
         {
@@ -52,9 +52,30 @@ public class Player : MonoBehaviour
             this.transform.position = new Vector2(curPos.x - speedRate, curPos.y);
         }
 
+        float check2 = 0;
+        float check = rb.velocity.y;
+
+        if (check2 <= check)
+            check2 = check;
+        else if (check != 0)
+        {
+            animator.SetBool("jumping", false);
+            animator.SetBool("fallingDown", true);
+        }
+
+        Debug.Log(rb.velocity.y);
 
         if (Input.GetKeyDown(KeyCode.W) && rb.velocity.y == 0)
+        {
+            animator.SetBool("jumping", true);
             rb.velocity = Vector2.up * jumpForce;
+        }
+        else if (rb.velocity.y == 0)
+        {
+            animator.SetBool("fallingDown", false);
+            check = 0;
+        }
+
     }
 
     void CreateObject() {
