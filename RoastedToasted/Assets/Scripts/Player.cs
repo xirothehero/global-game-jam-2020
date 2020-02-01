@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
     public int health = 100;
     public int damageTaken = 10;
 
-    bool onGround = true;
+
+    public Animator animator;
 
     Vector2 orgPos;
     Rigidbody2D rb;
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
         runSpeed *= 10;
         walkSpeed *= 10;
         orgPos = this.transform.position;
+        //animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -37,6 +39,8 @@ public class Player : MonoBehaviour
         else
             speedRate = walkSpeed;
 
+        animator.SetFloat("Speed", speedRate);
+
         if (Input.GetKey(KeyCode.D))
         {
             this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
@@ -48,13 +52,9 @@ public class Player : MonoBehaviour
             this.transform.position = new Vector2(curPos.x - speedRate, curPos.y);
         }
 
-        //Debug.Log(rb.velocity.y);
 
         if (Input.GetKeyDown(KeyCode.W) && rb.velocity.y == 0)
-        {
-            onGround = false;
             rb.velocity = Vector2.up * jumpForce;
-        }
     }
 
     void CreateObject() {
@@ -75,12 +75,9 @@ public class Player : MonoBehaviour
         
         if (collision.gameObject.tag == "enemy")
             health -= damageTaken;
-        
+
         if (collision.gameObject.tag == "gameOver")
             SceneManager.LoadScene("lose");
-        
-        if (collision.gameObject.tag == "ground")
-            onGround = true;
         
         if (health <= 0)
             Respawn();
