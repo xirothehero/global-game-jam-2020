@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     public int health = 100;
     public int damageTaken = 10;
 
+    bool onGround = true;
+
     Vector2 orgPos;
     Rigidbody2D rb;
 
@@ -41,12 +43,14 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
             this.transform.position = new Vector2(curPos.x - speedRate, curPos.y);
-        
-        if (Input.GetKeyDown(KeyCode.W))
-            rb.AddForce(new Vector2(0, jumpSpeed * Time.deltaTime));
 
+        if (Input.GetKeyDown(KeyCode.W) && onGround)
+        {
+            onGround = false;
+            this.transform.position = new Vector2(curPos.x, curPos.y + jumpSpeed);
+        }
     }
-    
+
     void CreateObject() {
     
     }
@@ -59,12 +63,18 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        
         if (collision.gameObject.tag == "kill")
             health -= 100;
-        else if (collision.gameObject.tag == "enemy")
+        
+        if (collision.gameObject.tag == "enemy")
             health -= damageTaken;
-        else if (collision.gameObject.tag == "gameOver")
+        
+        if (collision.gameObject.tag == "gameOver")
             SceneManager.LoadScene("lose");
+        
+        if (collision.gameObject.tag == "ground")
+            onGround = true;
         
         if (health <= 0)
             Respawn();
