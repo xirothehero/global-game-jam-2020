@@ -12,11 +12,14 @@ public class Player : MonoBehaviour
     public float runSpeed = 0.3f;
     public float jumpForce = 5f;
     public int health = 100;
+
+    [Tooltip("")]
     public int damageTaken = 10;
 
 
     public Animator animator;
 
+    // Orignial Position
     Vector2 orgPos;
     Rigidbody2D rb;
 
@@ -25,6 +28,11 @@ public class Player : MonoBehaviour
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         orgPos = this.transform.position;
         //animator = GetComponent<Animator>();
+    }
+
+    void Checkpoint(Vector2 cp)
+    {
+        orgPos = cp; 
     }
 
     void Update()
