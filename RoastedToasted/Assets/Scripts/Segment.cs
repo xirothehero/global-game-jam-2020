@@ -16,15 +16,7 @@ public class Segment : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Update() {
 
-    private void OnTriggerExit2D(Collider2D other) {
-        if (other.tag.Equals("Player"))
-        {
-            GameManager.instance.IncrementSegment();
-        }
     }
 }

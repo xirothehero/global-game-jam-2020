@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,12 +27,11 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public void OnDeath() {
-        player1.transform.position = _segList[_currentSegment].SpawnPoint.position;
-    }
-
+    
     public void IncrementSegment() {
         _currentSegment++;
+        if (_currentSegment < _segList.Count)
+            player1.GetComponent<Player>().Checkpoint(_segList[_currentSegment].SpawnPoint.position);
+        //else SceneManager.LoadScene("win");
     }
 }
