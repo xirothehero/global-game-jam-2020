@@ -44,18 +44,22 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "player")
-        {
-            state = "chasing";
-            lostSight = false;
-        }
-        else if (collision.gameObject.tag == "wall" && moveLeft)
+        if (collision.gameObject.tag == "wall" && moveLeft)
             moveLeft = false;
         else if (collision.gameObject.tag == "wall")
             moveLeft = true;
 
     }
-    private void OnCollisionExit(Collision collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "player")
+        {
+            state = "chasing";
+            lostSight = false;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
             lostSight = true;

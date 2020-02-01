@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         orgPos = this.transform.position;
-        //animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     void Checkpoint(Vector2 cp)
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
             animator.SetBool("fallingDown", true);
         }
 
-        Debug.Log(rb.velocity.y);
+        //Debug.Log(rb.velocity.y);
 
         if (Input.GetKeyDown(KeyCode.W) && rb.velocity.y == 0)
         {
