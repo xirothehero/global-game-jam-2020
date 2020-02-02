@@ -303,9 +303,14 @@ public class Player : MonoBehaviour
                     {
                         GameManager.instance.camera.NextPoint(i, i);
                     }
+                    //Vector2 cpos = new Vector2(GameManager.instance.camera.transitionAreas[i].transform.position.x + 6, GameManager.instance.camera.transitionAreas[i].transform.position.y);
+                    //CheckPoint( );
                 }
             }
         }
+        if (collision.gameObject.tag == "hurt")
+            TakeDamage(100);
+            
     }
 
     //private void OnCollisionExit(Collision collision)
