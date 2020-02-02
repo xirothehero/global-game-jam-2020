@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    GameObject player;
+    public GameObject player;
+    public GameObject enemy;
     float offsetY;
     public float min;
     public float max;
     void Start()
     {
         offsetY = transform.position.y;
+        StartCoroutine(SpawnEnemy(enemy));
     }
 
     // Update is called once per frame
