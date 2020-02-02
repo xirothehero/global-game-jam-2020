@@ -119,11 +119,19 @@ public class Player : MonoBehaviour
 
 
 
+
+
+
+
+
+
         //if (Input.GetKey(KeyCode.D) && canMoveRight)
         // Move Right
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && canMoveRight)
         {
             isMovingRight = true;
+            if (!canMoveLeft)
+                canMoveLeft = true;
             //this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
             this.transform.position = new Vector2(curPos.x + speedRate, curPos.y);
             if (isLeft)
@@ -136,8 +144,14 @@ public class Player : MonoBehaviour
         else
             isMovingRight = false;
         //if (Input.GetKey(KeyCode.A) && canMoveLeft)
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) && canMoveLeft)
         {
+            if (!canMoveRight)
+            {
+                canMoveRight = true;
+            }
+
+
             isMovingLeft = true;
             if (!isLeft)
             {
@@ -149,6 +163,16 @@ public class Player : MonoBehaviour
         }
         else
             isMovingLeft = false;
+
+
+
+
+
+
+
+
+
+
 
         float check2 = 0;
         float check = rb.velocity.y;
@@ -212,10 +236,18 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene("lose");
 
         if (collision.gameObject.tag == "wall" && isMovingRight)
+        {
+            if (!canMoveLeft)
+                canMoveLeft = true;
             canMoveRight = false;
-
+        }
         else if (collision.gameObject.tag == "wall" && isMovingLeft)
+        {
+            if (!canMoveRight)
+                canMoveRight = true;
             canMoveLeft = false;
+        }
+            
 
         if (collision.gameObject.tag == "finishPoint")
         {
@@ -228,6 +260,7 @@ public class Player : MonoBehaviour
             TakeDamage(100);
         }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -246,12 +279,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "wall" && !canMoveLeft)
-            canMoveLeft = true;
+    //private void OnCollisionExit(Collision collision)
+    //{
 
-        if (collision.gameObject.tag == "wall" && !canMoveRight)
-            canMoveRight = true;
-    }
+    //    if (collision.gameObject.tag == "wall" && !canMoveLeft)
+    //        canMoveLeft = true;
+
+    //    else if (collision.gameObject.tag == "wall" && !canMoveRight)
+    //        canMoveRight = true;
+
+
+    //    Debug.Log(canMoveLeft + " Left collision for can move left");
+    //    Debug.Log(canMoveRight + " Left collision for can move Right");
+    //}
 }
