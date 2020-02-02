@@ -5268,8 +5268,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 212c7bff79ea04f43840ce7fa868bba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point: {fileID: 0}
+  point: {fileID: 890111838}
   pathReached: 0
+  maxSpeed: 10
+  smoothTime: 0.6
 --- !u!1 &1195259581
 GameObject:
   m_ObjectHideFlags: 0
