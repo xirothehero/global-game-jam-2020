@@ -8,8 +8,8 @@ public class Player : MonoBehaviour
     public GameObject shape;
 
     [Header("Player stats")]
-    public float walkSpeed = 0.1f;
-    public float runSpeed = 0.3f;
+    public float walkSpeed = 0.05f;
+    public float runSpeed = 0.1f;
     public float jumpForce = 5f;
     public int health = 100;
 
@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     // Orignial Position
     Vector2 orgPos;
     Rigidbody2D rb;
+    int orgHealth;
 
     void Start()
     {
@@ -30,9 +31,10 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    void Checkpoint(Vector2 cp)
+    public void Checkpoint(Vector2 cp)
     {
-        orgPos = cp; 
+        orgPos = cp;
+        orgHealth = health;
     }
 
     void Update()
@@ -84,6 +86,19 @@ public class Player : MonoBehaviour
             check = 0;
         }
 
+        if (health <= 0 && health <= 100)
+        {
+            Respawn();
+        }
+
+    }
+
+    public void TakeDamage()
+    {
+        if (health <= 0)
+            Respawn();
+        else
+            health -= damageTaken;
     }
 
     void CreateObject() {
@@ -92,7 +107,7 @@ public class Player : MonoBehaviour
 
     void Respawn()
     {
-        health = 100;
+        health = orgHealth;
         this.transform.position = orgPos;
     }
 

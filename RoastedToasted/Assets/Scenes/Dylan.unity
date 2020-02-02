@@ -575,6 +575,7 @@ GameObject:
   - component: {fileID: 765940971}
   - component: {fileID: 765940975}
   - component: {fileID: 765940972}
+  - component: {fileID: 765940976}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: enemy
@@ -709,6 +710,33 @@ MonoBehaviour:
   moveLeft: 1
   speedOfEnemy: 0.025
   countDown: 5
+  attackCoolDown: 2
+--- !u!61 &765940976
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765940970}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.22769833, y: 2.226027}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 5.1299996}
+    newSize: {x: 5.12, y: 5.1299996}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 7.846304, y: 0.67794514}
+  m_EdgeRadius: 0
 --- !u!1 &1058504165
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,7 +1175,7 @@ PrefabInstance:
     - target: {fileID: 3260293032823277210, guid: 97953ff251137dd44a534ee9be5c289f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.957503
+      value: 17.96
       objectReference: {fileID: 0}
     - target: {fileID: 3260293032823277210, guid: 97953ff251137dd44a534ee9be5c289f,
         type: 3}
@@ -1467,7 +1495,7 @@ PrefabInstance:
       value: wall
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 3260293032823277208, guid: 97953ff251137dd44a534ee9be5c289f, type: 3}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 97953ff251137dd44a534ee9be5c289f, type: 3}
 --- !u!1001 &4828078057367819653
 PrefabInstance:
@@ -1679,10 +1707,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8150267221090619495, guid: d532dcefff32a5c44a0893a9ebb4897c,
+        type: 3}
+      propertyPath: walkSpeed
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150267221090619495, guid: d532dcefff32a5c44a0893a9ebb4897c,
+        type: 3}
+      propertyPath: runSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8150267221090619801, guid: d532dcefff32a5c44a0893a9ebb4897c,
         type: 3}
       propertyPath: m_Name
       value: player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150267221090619801, guid: d532dcefff32a5c44a0893a9ebb4897c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8150267221090619803, guid: d532dcefff32a5c44a0893a9ebb4897c,
         type: 3}
