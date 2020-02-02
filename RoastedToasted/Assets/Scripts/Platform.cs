@@ -5,6 +5,7 @@ using UnityEngine;
 public class Platform : MonoBehaviour
 {
     public bool selected;
+    public Sprite completedSprite;
     private Vector3 offset;
 
     private void OnMouseDown() {
@@ -30,5 +31,9 @@ public class Platform : MonoBehaviour
         newPos.z = offset.z;
 
         transform.position = newPos;
+    }
+
+    public void complete() {
+        gameObject.GetComponent<SpriteRenderer>().sprite = completedSprite;
     }
 }
