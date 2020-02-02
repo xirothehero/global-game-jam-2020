@@ -10,7 +10,10 @@ public class Enemy : MonoBehaviour
     public float speedOfEnemy = 5;
     public int enemyHealth = 2;
 
-    public float knockBackForce = 500f;
+    public float knockBackForce = 0.05f;
+
+    [Header("For testing the enemy")]
+    public bool immortal = false;
 
 
     [Tooltip("Count down for when the enemy loses sight of player to go back to patrol.")]
@@ -19,6 +22,7 @@ public class Enemy : MonoBehaviour
     public bool canFollow = true;
 
 
+    bool isAttacked = false;
     float returnCount;
     bool lostSight = false;
     GameObject playerObj;
@@ -26,6 +30,7 @@ public class Enemy : MonoBehaviour
     public float attackCoolDown = 2f;
     float orgAttackCoolDown;
 
+    float pushBackTimer = 0.5f;
     void Start()
     {
         returnCount = countDown;
@@ -81,16 +86,23 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "wall" && moveLeft)
-            moveLeft = false;
-        else if (collision.gameObject.tag == "wall")
-            moveLeft = true;
+        if (!isAttacked)
+        {
+            if (collision.gameObject.tag == "wall" && moveLeft)
+                moveLeft = false;
+            else if (collision.gameObject.tag == "wall")
+                moveLeft = true;
+        }
+
 
         if (collision.gameObject.tag == "player" && !canFollow)
         {
             playerObj = collision.gameObject;
             playerObj.GetComponent<Player>().health -= playerObj.GetComponent<Player>().damageTaken ;
         }
+
+        if (collision.gameObject.tag == "kill")
+            Destroy(gameObject);
 
     }
 
@@ -105,15 +117,32 @@ public class Enemy : MonoBehaviour
 
         if (collision.gameObject.tag == "attack")
         {
-            //enemyHealth -= 1;
-             
-               // Debug.Log("Hit Back");
-                //transform.position = new Vector2(transform.position.x + 0.5f, transform.position.y + 0.001f);
-            Vector2 moveDirection = collision.gameObject.transform.parent.GetComponent<Rigidbody2D>().transform.position - collision.transform.position;
-            this.gameObject.GetComponent<Rigidbody2D>().AddForce(moveDirection.normalized * -knockBackForce);
-            Debug.Log("Ending");
+            enemyHealth -= 1;
+
+            // Debug.Log("Hit Back");
+            //transform.position = new Vector2(transform.position.x + 0.5f, transform.position.y + 0.001f);
+            playerObj = collision.gameObject.transform.parent.gameObject;
+            //this.gameObject.GetComponent<Rigidbody2D>().AddForce(transform.up * -(knockBackForce / 10));
+            isAttacked = true;
+            if (enemyHealth <= 0 && !immortal)
+                Destroy(gameObject);
 
         }
+    }
+
+    void FixedUpdate()
+    {
+        if (isAttacked && pushBackTimer > 0)
+        {
+            pushBackTimer -= Time.deltaTime;
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + knockBackForce, transform.position.y), 3f);
+        }
+        else if (pushBackTimer <= 0)
+        {
+            pushBackTimer = 0.5f;
+            isAttacked = false;
+        }
+
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
