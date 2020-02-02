@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
     [Tooltip("Count down for when the enemy loses sight of player to go back to patrol.")]
     public float countDown = 5;
 
+    public bool canFollow = true;
+
 
     float returnCount;
     bool lostSight = false;
@@ -46,7 +48,7 @@ public class Enemy : MonoBehaviour
             attackCoolDown -= Time.deltaTime;
             if (attackCoolDown <= 0)
             {
-                playerObj.GetComponent<Player>().health -= playerObj.GetComponent<Player>().damageTaken;
+                playerObj.GetComponent<Player>().TakeDamage(playerObj.GetComponent<Player>().damageTaken);
                 attackCoolDown = orgAttackCoolDown;
             }
             if (playerObj.GetComponent<Player>().health <= 0)
@@ -82,7 +84,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && canFollow)
         {
             state = "chasing";
             lostSight = false;

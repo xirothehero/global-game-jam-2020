@@ -23,18 +23,20 @@ public class Player : MonoBehaviour
     Vector2 orgPos;
     Rigidbody2D rb;
     int orgHealth;
+    bool isRunning;
 
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
         orgPos = this.transform.position;
         animator = GetComponent<Animator>();
+        orgHealth = health;
     }
 
     public void Checkpoint(Vector2 cp)
     {
         orgPos = cp;
-        orgHealth = health;
+        health = orgHealth;
     }
 
     void Update()
@@ -42,8 +44,11 @@ public class Player : MonoBehaviour
         Vector2 curPos = this.transform.position;
         float speedRate = 0;
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && rb.velocity.y == 0)
+        {
+            isRunning = true;
             speedRate = runSpeed;
+        }
         else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
             speedRate = walkSpeed;
 
@@ -85,20 +90,18 @@ public class Player : MonoBehaviour
             animator.SetBool("fallingDown", false);
             check = 0;
         }
-
-        if (health <= 0 && health <= 100)
-        {
-            Respawn();
-        }
+        Debug.Log(health);
 
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int dmg)
     {
+        Debug.Log("Taking Damage");
         if (health <= 0)
             Respawn();
         else
-            health -= damageTaken;
+            health -= dmg;
+
     }
 
     void CreateObject() {
@@ -108,6 +111,7 @@ public class Player : MonoBehaviour
     void Respawn()
     {
         health = orgHealth;
+
         this.transform.position = orgPos;
     }
 
@@ -115,15 +119,13 @@ public class Player : MonoBehaviour
     {
         
         if (collision.gameObject.tag == "kill")
-            health -= 100;
+            TakeDamage(100);
         
         if (collision.gameObject.tag == "enemy")
-            health -= damageTaken;
+            TakeDamage(damageTaken);
 
         if (collision.gameObject.tag == "gameOver")
             SceneManager.LoadScene("lose");
         
-        if (health <= 0)
-            Respawn();
     }
 }

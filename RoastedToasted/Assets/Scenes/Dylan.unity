@@ -710,6 +710,7 @@ MonoBehaviour:
   moveLeft: 1
   speedOfEnemy: 0.025
   countDown: 5
+  canFollow: 1
   attackCoolDown: 2
 --- !u!61 &765940976
 BoxCollider2D:
@@ -1717,6 +1718,11 @@ PrefabInstance:
       propertyPath: runSpeed
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 8150267221090619495, guid: d532dcefff32a5c44a0893a9ebb4897c,
+        type: 3}
+      propertyPath: health
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 8150267221090619801, guid: d532dcefff32a5c44a0893a9ebb4897c,
         type: 3}
       propertyPath: m_Name
@@ -1726,6 +1732,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150267221090619802, guid: d532dcefff32a5c44a0893a9ebb4897c,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0.24997559
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150267221090619802, guid: d532dcefff32a5c44a0893a9ebb4897c,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.006293297
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150267221090619802, guid: d532dcefff32a5c44a0893a9ebb4897c,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2.2852142
       objectReference: {fileID: 0}
     - target: {fileID: 8150267221090619803, guid: d532dcefff32a5c44a0893a9ebb4897c,
         type: 3}
@@ -1781,6 +1802,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150267222756500207, guid: d532dcefff32a5c44a0893a9ebb4897c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150267222756500207, guid: d532dcefff32a5c44a0893a9ebb4897c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d532dcefff32a5c44a0893a9ebb4897c, type: 3}
