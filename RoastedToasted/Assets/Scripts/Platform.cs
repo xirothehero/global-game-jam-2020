@@ -7,6 +7,8 @@ public class Platform : MonoBehaviour
     public bool selected;
     public Sprite completedSprite;
     private Vector3 offset;
+    public bool set = false;
+    private Color color;
 
     private void OnMouseDown() {
         //TODO: check if player is not on platform 
@@ -21,19 +23,24 @@ public class Platform : MonoBehaviour
     }
     private void OnMouseDrag() 
     {
-        Debug.Log("clicked");
-        float mouseX = Input.mousePosition.x;
-        float mouseY = Input.mousePosition.y;
+        if(!set) {
+            GetComponent<BoxCollider2D>().enabled = false;  
+            float mouseX = Input.mousePosition.x;
+            float mouseY = Input.mousePosition.y;
 
-        Vector3 newPos = Camera.main.ScreenToWorldPoint(new Vector2(mouseX, mouseY));
-        print(mouseX + " " + mouseY);
-        newPos += offset;
-        newPos.z = offset.z;
+            Vector3 newPos = Camera.main.ScreenToWorldPoint(new Vector2(mouseX, mouseY));
+            newPos += offset;
+            newPos.z = offset.z;
 
-        transform.position = newPos;
+            transform.position = newPos;
+        }
+    }
+    private void OnMouseUp() {
+        GetComponent<BoxCollider2D>().enabled = true;
     }
 
     public void complete() {
+        set = true;
         gameObject.GetComponent<SpriteRenderer>().sprite = completedSprite;
     }
 }
