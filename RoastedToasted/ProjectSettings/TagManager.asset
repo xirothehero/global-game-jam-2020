@@ -10,6 +10,7 @@ TagManager:
   - wall
   - attack
   - nextSegment
+  - hurt
   layers:
   - Default
   - TransparentFX
