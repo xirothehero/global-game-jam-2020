@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Need to make it so players can try to glitch through the wall.
 public class Player : MonoBehaviour
 {
     public GameObject shape;
@@ -181,6 +182,16 @@ public class Player : MonoBehaviour
         else if (collision.gameObject.tag == "wall" && isMovingLeft)
             canMoveLeft = false;
 
+        if (collision.gameObject.tag == "finishPoint")
+        {
+            // Do finish code
+        }
+
+        if (collision.gameObject.tag == "hurt")
+        {
+            // Instant kill on spike
+            TakeDamage(100);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
