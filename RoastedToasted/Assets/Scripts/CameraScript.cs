@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
+    [Header("Camera configuration variables")]
     public GameObject[] cameraPoints;
     public GameObject[] transitionAreas;
     public float transitionSpeed = 0.05f;
+
+    [Header("Don't touch these Vars")]
     public int counter = 0;
     public int counterTransition = 0;
     // Update is called once per frame
