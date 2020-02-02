@@ -43,6 +43,11 @@ public class Enemy : MonoBehaviour
 
     float pushBackTimer = 0.5f;
 
+    float deathTimer = 1f;
+    bool dead = false;
+
+    Animator enemyAnimator;
+
     // When enemy is hit, a flashing effect is played
     // rendering the sprite in and out
     bool flashEffect = false;
@@ -51,6 +56,7 @@ public class Enemy : MonoBehaviour
     {
         returnCount = countDown;
         orgAttackCoolDown = attackCoolDown;
+        enemyAnimator = this.gameObject.GetComponent<Animator>();
     }
 
     void Update()
@@ -132,6 +138,19 @@ public class Enemy : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
         }
 
+        if (dead)
+        {
+            enemyAnimator.SetBool("death", true);
+            deathTimer -= Time.deltaTime;
+            if (deathTimer <= 0)
+            {
+                deathTimer = 1f;
+                dead = false;
+                Destroy(gameObject);
+            }
+
+        }
+
     }
 
 
@@ -151,7 +170,7 @@ public class Enemy : MonoBehaviour
         }
 
         if (collision.gameObject.tag == "kill")
-            Destroy(gameObject);
+            dead = true;;
 
     }
 
@@ -186,7 +205,7 @@ public class Enemy : MonoBehaviour
             playerObj = collision.gameObject.transform.parent.gameObject;
             isAttacked = true;
             if (enemyHealth <= 0 && !immortal)
-                Destroy(gameObject);
+                dead = true;;
 
         }
 
@@ -196,13 +215,12 @@ public class Enemy : MonoBehaviour
             ToggleDirection(collision.gameObject);
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
             lostSight = true;
         }
-
-      
     }
 }
