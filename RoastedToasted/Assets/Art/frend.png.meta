@@ -47,6 +47,54 @@ TextureImporter:
   - first:
       213: 8990637194120680458
     second: frend_14
+  - first:
+      213: -719765775591952603
+    second: frend_0
+  - first:
+      213: -8767170064490443429
+    second: frend_1
+  - first:
+      213: -969870118888577874
+    second: frend_2
+  - first:
+      213: 8408084698884807089
+    second: frend_3
+  - first:
+      213: -7736566855681643680
+    second: frend_4
+  - first:
+      213: -275952347289799827
+    second: frend_5
+  - first:
+      213: 407851291031188019
+    second: frend_6
+  - first:
+      213: 9103739735315167906
+    second: frend_7
+  - first:
+      213: 276062962704588425
+    second: frend_8
+  - first:
+      213: 1711632501833699080
+    second: frend_9
+  - first:
+      213: -8789076027826823471
+    second: frend_10
+  - first:
+      213: -784485345385756362
+    second: frend_11
+  - first:
+      213: 6310403359702399501
+    second: frend_12
+  - first:
+      213: -6779293818363561231
+    second: frend_13
+  - first:
+      213: 2742861917625382209
+    second: frend_14
+  - first:
+      213: 5013523285635492519
+    second: frend_15
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -171,9 +219,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 658
-        y: 467
+        y: 466
         width: 10
-        height: 10
+        height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,8 +229,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f6c9c86ab56e6500800000000000000
-      internalID: 391362068924188409
+      spriteID: 52fab5037d0e206f0800000000000000
+      internalID: -719765775591952603
       vertices: []
       indices: 
       edges: []
@@ -191,9 +239,9 @@ TextureImporter:
       name: frend_1
       rect:
         serializedVersion: 2
-        x: 3013
+        x: 3019
         y: 0
-        width: 278
+        width: 279
         height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -202,8 +250,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8220cbc86c5634cc0800000000000000
-      internalID: -3728024163093577176
+      spriteID: b5dcb9cd641c45680800000000000000
+      internalID: -8767170064490443429
       vertices: []
       indices: 
       edges: []
@@ -223,8 +271,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86847ab22af4545c0800000000000000
-      internalID: -4231888716909033368
+      spriteID: ea46165f3445a82f0800000000000000
+      internalID: -969870118888577874
       vertices: []
       indices: 
       edges: []
@@ -236,7 +284,7 @@ TextureImporter:
         x: 4257
         y: 457
         width: 8
-        height: 12
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -244,8 +292,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aa8b2641fe41e4aa0800000000000000
-      internalID: -6174975022006617942
+      spriteID: 1b91d665c748fa470800000000000000
+      internalID: 8408084698884807089
       vertices: []
       indices: 
       edges: []
@@ -265,8 +313,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0eebb127cc5ffab80800000000000000
-      internalID: -8381210123076649248
+      spriteID: 06be8025f6132a490800000000000000
+      internalID: -7736566855681643680
       vertices: []
       indices: 
       edges: []
@@ -275,30 +323,9 @@ TextureImporter:
       name: frend_5
       rect:
         serializedVersion: 2
-        x: 615
-        y: 325
-        width: 12
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 47474241493444b00800000000000000
-      internalID: 811848136105686132
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: frend_6
-      rect:
-        serializedVersion: 2
-        x: 618
+        x: 617
         y: 14
-        width: 241
+        width: 242
         height: 449
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -307,8 +334,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 49f13d519d2e78570800000000000000
-      internalID: 8468987046295445396
+      spriteID: d633bdc5dce9b2cf0800000000000000
+      internalID: -275952347289799827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frend_6
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 14
+        width: 242
+        height: 449
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 332391b969af8a500800000000000000
+      internalID: 407851291031188019
       vertices: []
       indices: 
       edges: []
@@ -328,8 +376,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 430a6eee37c4d9a80800000000000000
-      internalID: -8458520464318881740
+      spriteID: 2aab11b3e0bf65e70800000000000000
+      internalID: 9103739735315167906
       vertices: []
       indices: 
       edges: []
@@ -349,8 +397,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 30b43650ba57a77d0800000000000000
-      internalID: -2919892031006094589
+      spriteID: 98e16ab4dc5c4d300800000000000000
+      internalID: 276062962704588425
       vertices: []
       indices: 
       edges: []
@@ -370,8 +418,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 39cd5da3224b2fc80800000000000000
-      internalID: -8290365904926679917
+      spriteID: 80f8fc911b0f0c710800000000000000
+      internalID: 1711632501833699080
       vertices: []
       indices: 
       edges: []
@@ -380,8 +428,8 @@ TextureImporter:
       name: frend_10
       rect:
         serializedVersion: 2
-        x: 2550
-        y: 6
+        x: 2542
+        y: 8
         width: 237
         height: 450
       alignment: 0
@@ -391,8 +439,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aaa7754d2d03256c0800000000000000
-      internalID: -4156205824045778262
+      spriteID: 1de1b715bede60680800000000000000
+      internalID: -8789076027826823471
       vertices: []
       indices: 
       edges: []
@@ -412,8 +460,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ab143cd4e6bb8770800000000000000
-      internalID: 8614179806339406754
+      spriteID: 63948c81cb2fc15f0800000000000000
+      internalID: -784485345385756362
       vertices: []
       indices: 
       edges: []
@@ -433,8 +481,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a761d980eff793f0800000000000000
-      internalID: -893964661159794778
+      spriteID: d0a3e74fb6e039750800000000000000
+      internalID: 6310403359702399501
       vertices: []
       indices: 
       edges: []
@@ -454,8 +502,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ffd1620df9f5cbe40800000000000000
-      internalID: 5673514770576580095
+      spriteID: 1fa3070c03c1be1a0800000000000000
+      internalID: -6779293818363561231
       vertices: []
       indices: 
       edges: []
@@ -475,8 +523,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a045af3c4e825cc70800000000000000
-      internalID: 8990637194120680458
+      spriteID: 145f10cb16a901620800000000000000
+      internalID: 2742861917625382209
       vertices: []
       indices: 
       edges: []
