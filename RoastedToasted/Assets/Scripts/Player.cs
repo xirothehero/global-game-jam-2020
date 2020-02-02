@@ -24,6 +24,11 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     int orgHealth;
     bool isRunning;
+    bool isMovingLeft = false;
+    bool isMovingRight = false;
+
+    bool canMoveLeft = true;
+    bool canMoveRight = true;
 
     void Start()
     {
@@ -49,23 +54,29 @@ public class Player : MonoBehaviour
             isRunning = true;
             speedRate = runSpeed;
         }
-        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+        else if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
             speedRate = walkSpeed;
 
 
         animator.SetFloat("Speed", speedRate);
 
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && canMoveRight)
         {
+            isMovingRight = true;
             this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
             this.transform.position = new Vector2(curPos.x + speedRate, curPos.y);
         }
-        if (Input.GetKey(KeyCode.A))
+        else
+            isMovingRight = false;
+        if (Input.GetKey(KeyCode.A) && canMoveLeft)
         {
+            isMovingLeft = true;
             this.gameObject.GetComponent<SpriteRenderer>().flipX = true;
             this.transform.position = new Vector2(curPos.x - speedRate, curPos.y);
         }
+        else
+            isMovingLeft = false;
 
         float check2 = 0;
         float check = rb.velocity.y;
@@ -90,7 +101,7 @@ public class Player : MonoBehaviour
             animator.SetBool("fallingDown", false);
             check = 0;
         }
-        Debug.Log(health);
+        //Debug.Log(health);
 
     }
 
@@ -111,7 +122,8 @@ public class Player : MonoBehaviour
     void Respawn()
     {
         health = orgHealth;
-
+        canMoveLeft = true;
+        canMoveRight = true;
         this.transform.position = orgPos;
     }
 
@@ -126,6 +138,22 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.tag == "gameOver")
             SceneManager.LoadScene("lose");
-        
+
+        if (collision.gameObject.tag == "wall" && isMovingRight)
+            canMoveRight = false;
+
+        else if (collision.gameObject.tag == "wall" && isMovingLeft)
+            canMoveLeft = false;
+
+
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "wall" && !canMoveLeft)
+            canMoveLeft = true;
+
+        if (collision.gameObject.tag == "wall" && !canMoveRight)
+            canMoveRight = true;
     }
 }
