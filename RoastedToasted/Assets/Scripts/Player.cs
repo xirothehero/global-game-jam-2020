@@ -21,6 +21,12 @@ public class Player : MonoBehaviour
 
     public Animator animator;
 
+    [Header("Sounds")] 
+    public AudioSource source;
+    public AudioClip walk;
+    public AudioClip land;
+    public AudioClip attack;
+
     // Orignial Position
     Vector2 orgPos;
     Rigidbody2D rb;
@@ -32,6 +38,8 @@ public class Player : MonoBehaviour
     bool canMoveRight = true;
 
     bool isLeft = false;
+
+    private bool isFalling = false;
 
     public float attackCoolDown = 2;
     float orgCoolDown;
@@ -72,6 +80,8 @@ public class Player : MonoBehaviour
         else if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
             speedRate = walkSpeed;
 
+        if (speedRate != 0 && !source.isPlaying && rb.velocity.y == 0)
+            source.PlayOneShot(walk);
 
         animator.SetFloat("Speed", speedRate);
 
@@ -84,6 +94,7 @@ public class Player : MonoBehaviour
             attackCoolDown = orgCoolDown;
             attackBox.SetActive(true);
             animator.SetBool("attacking", true);
+            source.PlayOneShot(attack);
         }
         else
         {
@@ -182,6 +193,8 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("jumping", false);
             animator.SetBool("fallingDown", true);
+            if (!isFalling)
+                isFalling = true;
         }
 
         //Debug.Log(rb.velocity.y);
@@ -195,6 +208,12 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("fallingDown", false);
             check = 0;
+            
+            if (isFalling)
+            {
+                source.PlayOneShot(land);
+                isFalling = false;
+            }
         }
         //Debug.Log(health);
 
