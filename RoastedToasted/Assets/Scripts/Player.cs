@@ -51,6 +51,8 @@ public class Player : MonoBehaviour
     float flashEffectCoolDown = 0.05f;
     bool wasDamaged = false;
 
+    int life = 3;
+
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
@@ -235,6 +237,10 @@ public class Player : MonoBehaviour
 
     void Respawn()
     {
+        life--;
+        if (life <= 0){
+            SceneManager.LoadScene("lose");
+        }
         health = orgHealth;
         canMoveLeft = true;
         canMoveRight = true;
@@ -269,7 +275,7 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.tag == "finishPoint")
         {
-            // Do finish code
+            SceneManager.LoadScene("Win Scene");
         }
 
         if (collision.gameObject.tag == "hurt")

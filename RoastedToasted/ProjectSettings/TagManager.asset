@@ -11,6 +11,7 @@ TagManager:
   - attack
   - nextSegment
   - hurt
+  - finishPoint
   layers:
   - Default
   - TransparentFX
