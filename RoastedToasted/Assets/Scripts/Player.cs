@@ -73,7 +73,6 @@ public class Player : MonoBehaviour
         // Attacking Mechanic
         if (Input.GetKeyDown(KeyCode.Space) && attackCoolDown <= 0 )
         {
-            Debug.Log("attacking");
             attackCoolDown = orgCoolDown;
             attackBox.SetActive(true);
             animator.SetBool("attacking", true);
@@ -145,7 +144,6 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
-        Debug.Log("Taking Damage");
         if (health <= 0)
             Respawn();
         else
@@ -183,7 +181,23 @@ public class Player : MonoBehaviour
         else if (collision.gameObject.tag == "wall" && isMovingLeft)
             canMoveLeft = false;
 
+    }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "nextSegment")
+        {
+            for (int i = 0; i < GameManager.instance.camera.transitionAreas.Length; i++)
+            {
+                if (GameManager.instance.camera.transitionAreas[i] == collision.gameObject)
+                {
+                    if (GameManager.instance.camera.counter == i)
+                        GameManager.instance.camera.NextPoint(i+1, i);
+                    else
+                        GameManager.instance.camera.NextPoint(i, i);
+                }
+            }
+        }
     }
 
     private void OnCollisionExit(Collision collision)

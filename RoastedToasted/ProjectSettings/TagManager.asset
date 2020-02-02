@@ -9,6 +9,7 @@ TagManager:
   - ground
   - wall
   - attack
+  - nextSegment
   layers:
   - Default
   - TransparentFX
