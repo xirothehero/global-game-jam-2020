@@ -29,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8150267221090619801}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.88, y: -2.28, z: 2}
   m_LocalScale: {x: 0.51597655, y: 0.46294153, z: 1}
   m_Children:
@@ -120,7 +120,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.021273613, y: -0.006293416}
+  m_Offset: {x: 0.24997559, y: -0.006293297}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -131,7 +131,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.8861232, y: 4.4881983}
+  m_Size: {x: 2.2852142, y: 4.4881983}
   m_EdgeRadius: 0
 --- !u!114 &8150267221090619495
 MonoBehaviour:
@@ -146,10 +146,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shape: {fileID: 0}
-  walkSpeed: 0.1
-  runSpeed: 0.2
+  walkSpeed: 0.05
+  runSpeed: 0.1
   jumpForce: 7
-  health: 100
+  health: 30
   damageTaken: 10
   attackBox: {fileID: 9129798097332879568}
   animator: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8204186756728142942
 Transform:
   m_ObjectHideFlags: 0
