@@ -151,7 +151,7 @@ PrefabInstance:
     - target: {fileID: 2561035694187802558, guid: 96c7a1f035c3505428c4e7eb0a699202,
         type: 3}
       propertyPath: knockBackForce
-      value: 0.05
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2561035694187802558, guid: 96c7a1f035c3505428c4e7eb0a699202,
         type: 3}
@@ -162,6 +162,11 @@ PrefabInstance:
         type: 3}
       propertyPath: immortal
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561035694187802558, guid: 96c7a1f035c3505428c4e7eb0a699202,
+        type: 3}
+      propertyPath: canKnockBack
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2561035694187802559, guid: 96c7a1f035c3505428c4e7eb0a699202,
         type: 3}
@@ -1131,6 +1136,7 @@ MonoBehaviour:
   attackBox: {fileID: 0}
   animator: {fileID: 0}
   attackCoolDown: 2
+  flashEffectTimer: 0.5
 --- !u!111 &1112106650
 Animation:
   m_ObjectHideFlags: 0
