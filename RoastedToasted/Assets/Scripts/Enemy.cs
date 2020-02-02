@@ -2,27 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Need to fix colliders for enemies
 public class Enemy : MonoBehaviour
 {
     string state = "patrolling";
-    public bool moveLeft = false;
     public float speedOfEnemy = 5;
-    public int enemyHealth;
+    public int enemyHealth = 2;
+
+    public float knockBackForce = 0.05f;
 
 
     [Tooltip("Count down for when the enemy loses sight of player to go back to patrol.")]
     public float countDown = 5;
 
+    [Tooltip("The time it takes until the enemy can attack again (only effects attacks if can follow is true)")]
+    public float attackCoolDown = 2f;
+
+    [Tooltip("Can follow the player or not")]
     public bool canFollow = true;
 
+    [Tooltip("For a physical knock back effect")]
+    public bool canKnockBack = true;
 
+    [Header("For testing the enemy")]
+    public bool immortal = false;
+
+
+
+    [Header("Don't touch variables")]
+    public bool moveLeft = false;
+
+
+    bool isAttacked = false;
     float returnCount;
     bool lostSight = false;
     GameObject playerObj;
 
-    public float attackCoolDown = 2f;
+    // org = original
     float orgAttackCoolDown;
 
+    float pushBackTimer = 0.5f;
+
+    // When enemy is hit, a flashing effect is played
+    // rendering the sprite in and out
+    bool flashEffect = false;
+    float flashEffectCoolDown = 0.05f;
     void Start()
     {
         returnCount = countDown;
@@ -72,26 +96,53 @@ public class Enemy : MonoBehaviour
             state = "patrolling";
             lostSight = false;
         }
-   
-    }
 
-    IEnumerator KnockBack()
-    {
-        Vector2 thisPos = transform.position;
-        while (transform.position.x <= (thisPos.x + 50))
+        if (isAttacked && pushBackTimer > 0)
         {
-            transform.position = new Vector2(transform.position.x + 0.5f, transform.position.y+0.1f);
-            yield return new WaitForSeconds(0.5f);
+            pushBackTimer -= Time.deltaTime;
+            if (playerObj.transform.rotation.y == 0 && canKnockBack)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + knockBackForce, transform.position.y), 3f);
+            }
+            else if (canKnockBack)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x - knockBackForce, transform.position.y), 3f);
+            }
+
+            if (flashEffect)
+            {
+                flashEffect = false;
+            }
+            else if (flashEffectCoolDown <= 0)
+            {
+                flashEffect = true;
+                flashEffectCoolDown = 0.05f;
+            }
+            else
+            {
+                flashEffectCoolDown -= Time.deltaTime;
+            }
+            gameObject.GetComponent<SpriteRenderer>().enabled = flashEffect;
+
+        }
+        else if (pushBackTimer <= 0)
+        {
+            pushBackTimer = 0.5f;
+            isAttacked = false;
+            gameObject.GetComponent<SpriteRenderer>().enabled = true;
         }
 
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "wall" && moveLeft)
-            moveLeft = false;
-        else if (collision.gameObject.tag == "wall")
-            moveLeft = true;
+        if (!isAttacked)
+        {
+            ToggleDirection(collision.gameObject);
+
+        }
+
 
         if (collision.gameObject.tag == "player" && !canFollow)
         {
@@ -99,6 +150,24 @@ public class Enemy : MonoBehaviour
             playerObj.GetComponent<Player>().health -= playerObj.GetComponent<Player>().damageTaken ;
         }
 
+        if (collision.gameObject.tag == "kill")
+            Destroy(gameObject);
+
+    }
+
+    void ToggleDirection(GameObject plyobj)
+    {
+        if (plyobj.tag == "wall" && moveLeft)
+        {
+            moveLeft = false;
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
+
+        else if (plyobj.tag == "wall")
+        {
+            moveLeft = true;
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -113,15 +182,18 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.tag == "attack")
         {
             enemyHealth -= 1;
-            if (enemyHealth <= 0)
-            {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                Debug.Log("Starting knockback");
-                StartCoroutine("KnockBack");
-            }
+
+            playerObj = collision.gameObject.transform.parent.gameObject;
+            isAttacked = true;
+            if (enemyHealth <= 0 && !immortal)
+                Destroy(gameObject);
+
+        }
+
+
+        if (!isAttacked)
+        {
+            ToggleDirection(collision.gameObject);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

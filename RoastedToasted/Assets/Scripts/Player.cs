@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Need to make it so players can try to glitch through the wall.
 public class Player : MonoBehaviour
 {
     public GameObject shape;
@@ -36,6 +37,13 @@ public class Player : MonoBehaviour
     public float attackCoolDown = 2;
     float orgCoolDown;
 
+
+    [Tooltip("How long should the flash effect be for the player")]
+    public float flashEffectTimer = 1f;
+    float orgFlashEffectTimer;
+    float flashEffectCoolDown = 0.05f;
+    bool wasDamaged = false;
+
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
@@ -44,6 +52,7 @@ public class Player : MonoBehaviour
         orgHealth = health;
         orgCoolDown = attackCoolDown;
         attackCoolDown = 0;
+        orgFlashEffectTimer = flashEffectTimer;
     }
 
     public void Checkpoint(Vector2 cp)
@@ -84,9 +93,35 @@ public class Player : MonoBehaviour
         }
 
 
+
+        // For flash effect for player
+        if (wasDamaged && flashEffectTimer > 0)
+        {
+            if (attackCoolDown <= 0)
+            {
+                gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                attackCoolDown = 0.05f;
+            }
+            else
+            {
+                gameObject.GetComponent<SpriteRenderer>().enabled = true;
+                attackCoolDown -= Time.deltaTime;
+            }
+
+            flashEffectTimer -= Time.deltaTime;
+            if (flashEffectTimer <= 0)
+            {
+                wasDamaged = false;
+                flashEffectTimer = orgFlashEffectTimer;
+            }
+        }
+
+
+
+
         //if (Input.GetKey(KeyCode.D) && canMoveRight)
         // Move Right
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && canMoveRight)
         {
             isMovingRight = true;
             //this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
@@ -149,6 +184,7 @@ public class Player : MonoBehaviour
         else
             health -= dmg;
 
+        wasDamaged = true;
     }
 
     void CreateObject() {
@@ -181,6 +217,16 @@ public class Player : MonoBehaviour
         else if (collision.gameObject.tag == "wall" && isMovingLeft)
             canMoveLeft = false;
 
+        if (collision.gameObject.tag == "finishPoint")
+        {
+            // Do finish code
+        }
+
+        if (collision.gameObject.tag == "hurt")
+        {
+            // Instant kill on spike
+            TakeDamage(100);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
