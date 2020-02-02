@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2561035694187802558}
   - component: {fileID: 2561035694187802557}
   - component: {fileID: 2561035694187802529}
+  - component: {fileID: 5014300100465603646}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: enemy
@@ -124,12 +125,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 271ed2764bf1466459e5f242e48ef425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveLeft: 1
   speedOfEnemy: 0.025
-  enemyHealth: 0
+  enemyHealth: 2
+  knockBackForce: 0.05
   countDown: 5
-  canFollow: 1
   attackCoolDown: 2
+  canFollow: 1
+  canKnockBack: 1
+  immortal: 0
+  moveLeft: 1
 --- !u!50 &2561035694187802557
 Rigidbody2D:
   serializedVersion: 4
@@ -177,3 +181,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10.327538, y: 0.67794514}
   m_EdgeRadius: 0
+--- !u!95 &5014300100465603646
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2561035694187802555}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da07c746ed13dc941bf8cfa13bd7a0e3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
