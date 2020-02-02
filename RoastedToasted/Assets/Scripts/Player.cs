@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
 
         //if (Input.GetKey(KeyCode.D) && canMoveRight)
         // Move Right
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && canMoveRight)
         {
             isMovingRight = true;
             //this.gameObject.GetComponent<SpriteRenderer>().flipX = false;

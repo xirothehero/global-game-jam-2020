@@ -139,17 +139,7 @@ public class Enemy : MonoBehaviour
     {
         if (!isAttacked)
         {
-            if (collision.gameObject.tag == "wall" && moveLeft)
-            {
-                moveLeft = false;
-                gameObject.GetComponent<SpriteRenderer>().flipX = false;
-            }
-
-            else if (collision.gameObject.tag == "wall")
-            {
-                moveLeft = true;
-                gameObject.GetComponent<SpriteRenderer>().flipX = true;
-            }
+            ToggleDirection(collision.gameObject);
 
         }
 
@@ -163,6 +153,21 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.tag == "kill")
             Destroy(gameObject);
 
+    }
+
+    void ToggleDirection(GameObject plyobj)
+    {
+        if (plyobj.tag == "wall" && moveLeft)
+        {
+            moveLeft = false;
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
+
+        else if (plyobj.tag == "wall")
+        {
+            moveLeft = true;
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -183,6 +188,12 @@ public class Enemy : MonoBehaviour
             if (enemyHealth <= 0 && !immortal)
                 Destroy(gameObject);
 
+        }
+
+
+        if (!isAttacked)
+        {
+            ToggleDirection(collision.gameObject);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
