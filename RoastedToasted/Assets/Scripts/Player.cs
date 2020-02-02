@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     [Tooltip("")]
     public int damageTaken = 10;
 
+    public GameObject attackBox;
 
     public Animator animator;
 
@@ -23,12 +24,17 @@ public class Player : MonoBehaviour
     Vector2 orgPos;
     Rigidbody2D rb;
     int orgHealth;
-    bool isRunning;
+    bool isFlying = false;
     bool isMovingLeft = false;
     bool isMovingRight = false;
 
     bool canMoveLeft = true;
     bool canMoveRight = true;
+
+    bool isLeft = false;
+
+    public float attackCoolDown = 2;
+    float orgCoolDown;
 
     void Start()
     {
@@ -36,6 +42,8 @@ public class Player : MonoBehaviour
         orgPos = this.transform.position;
         animator = GetComponent<Animator>();
         orgHealth = health;
+        orgCoolDown = attackCoolDown;
+        attackCoolDown = 0;
     }
 
     public void Checkpoint(Vector2 cp)
@@ -51,7 +59,6 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift) && rb.velocity.y == 0)
         {
-            isRunning = true;
             speedRate = runSpeed;
         }
         else if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
@@ -60,19 +67,50 @@ public class Player : MonoBehaviour
 
         animator.SetFloat("Speed", speedRate);
 
+        if (attackCoolDown > 0)
+            attackCoolDown -= Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.D) && canMoveRight)
+        // Attacking Mechanic
+        if (Input.GetKeyDown(KeyCode.Space) && attackCoolDown <= 0 )
+        {
+            Debug.Log("attacking");
+            attackCoolDown = orgCoolDown;
+            attackBox.SetActive(true);
+            animator.SetBool("attacking", true);
+        }
+        else
+        {
+            attackBox.SetActive(false);
+            animator.SetBool("attacking", false);
+        }
+
+
+        //if (Input.GetKey(KeyCode.D) && canMoveRight)
+        // Move Right
+        if (Input.GetKey(KeyCode.D))
         {
             isMovingRight = true;
-            this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            //this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
             this.transform.position = new Vector2(curPos.x + speedRate, curPos.y);
+            if (isLeft)
+            {
+                transform.rotation = new Quaternion(0f, 0f, 0f, 0);
+                isLeft = false;
+            }
+
         }
         else
             isMovingRight = false;
-        if (Input.GetKey(KeyCode.A) && canMoveLeft)
+        //if (Input.GetKey(KeyCode.A) && canMoveLeft)
+        if (Input.GetKey(KeyCode.A))
         {
             isMovingLeft = true;
-            this.gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            if (!isLeft)
+            {
+                isLeft = true;
+                transform.rotation = new Quaternion(0f, 180f, 0f, 0);
+            }
+
             this.transform.position = new Vector2(curPos.x - speedRate, curPos.y);
         }
         else
@@ -126,7 +164,7 @@ public class Player : MonoBehaviour
         canMoveRight = true;
         this.transform.position = orgPos;
     }
-
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         

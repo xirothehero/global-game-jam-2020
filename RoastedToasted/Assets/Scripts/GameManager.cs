@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private List<Segment> _segList;
     [SerializeField] private GameObject player1;
+    public CameraScript camera;
     private int _currentSegment;
-
 
     private void Awake()
     {
