@@ -37,6 +37,13 @@ public class Player : MonoBehaviour
     public float attackCoolDown = 2;
     float orgCoolDown;
 
+
+    [Tooltip("How long should the flash effect be for the player")]
+    public float flashEffectTimer = 1f;
+    float orgFlashEffectTimer;
+    float flashEffectCoolDown = 0.05f;
+    bool wasDamaged = false;
+
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
@@ -45,6 +52,7 @@ public class Player : MonoBehaviour
         orgHealth = health;
         orgCoolDown = attackCoolDown;
         attackCoolDown = 0;
+        orgFlashEffectTimer = flashEffectTimer;
     }
 
     public void Checkpoint(Vector2 cp)
@@ -83,6 +91,32 @@ public class Player : MonoBehaviour
             attackBox.SetActive(false);
             animator.SetBool("attacking", false);
         }
+
+
+
+        // For flash effect for player
+        if (wasDamaged && flashEffectTimer > 0)
+        {
+            if (attackCoolDown <= 0)
+            {
+                gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                attackCoolDown = 0.05f;
+            }
+            else
+            {
+                gameObject.GetComponent<SpriteRenderer>().enabled = true;
+                attackCoolDown -= Time.deltaTime;
+            }
+
+            flashEffectTimer -= Time.deltaTime;
+            if (flashEffectTimer <= 0)
+            {
+                wasDamaged = false;
+                flashEffectTimer = orgFlashEffectTimer;
+            }
+        }
+
+
 
 
         //if (Input.GetKey(KeyCode.D) && canMoveRight)
@@ -150,6 +184,7 @@ public class Player : MonoBehaviour
         else
             health -= dmg;
 
+        wasDamaged = true;
     }
 
     void CreateObject() {

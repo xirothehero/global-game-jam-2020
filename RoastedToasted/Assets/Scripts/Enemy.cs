@@ -6,20 +6,31 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     string state = "patrolling";
-    public bool moveLeft = false;
     public float speedOfEnemy = 5;
     public int enemyHealth = 2;
 
     public float knockBackForce = 0.05f;
 
-    [Header("For testing the enemy")]
-    public bool immortal = false;
-
 
     [Tooltip("Count down for when the enemy loses sight of player to go back to patrol.")]
     public float countDown = 5;
 
+    [Tooltip("The time it takes until the enemy can attack again (only effects attacks if can follow is true)")]
+    public float attackCoolDown = 2f;
+
+    [Tooltip("Can follow the player or not")]
     public bool canFollow = true;
+
+    [Tooltip("For a physical knock back effect")]
+    public bool canKnockBack = true;
+
+    [Header("For testing the enemy")]
+    public bool immortal = false;
+
+
+
+    [Header("Don't touch variables")]
+    public bool moveLeft = false;
 
 
     bool isAttacked = false;
@@ -27,10 +38,15 @@ public class Enemy : MonoBehaviour
     bool lostSight = false;
     GameObject playerObj;
 
-    public float attackCoolDown = 2f;
+    // org = original
     float orgAttackCoolDown;
 
     float pushBackTimer = 0.5f;
+
+    // When enemy is hit, a flashing effect is played
+    // rendering the sprite in and out
+    bool flashEffect = false;
+    float flashEffectCoolDown = 0.05f;
     void Start()
     {
         returnCount = countDown;
@@ -80,7 +96,42 @@ public class Enemy : MonoBehaviour
             state = "patrolling";
             lostSight = false;
         }
-   
+
+        if (isAttacked && pushBackTimer > 0)
+        {
+            pushBackTimer -= Time.deltaTime;
+            if (playerObj.transform.rotation.y == 0 && canKnockBack)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + knockBackForce, transform.position.y), 3f);
+            }
+            else if (canKnockBack)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x - knockBackForce, transform.position.y), 3f);
+            }
+
+            if (flashEffect)
+            {
+                flashEffect = false;
+            }
+            else if (flashEffectCoolDown <= 0)
+            {
+                flashEffect = true;
+                flashEffectCoolDown = 0.05f;
+            }
+            else
+            {
+                flashEffectCoolDown -= Time.deltaTime;
+            }
+            gameObject.GetComponent<SpriteRenderer>().enabled = flashEffect;
+
+        }
+        else if (pushBackTimer <= 0)
+        {
+            pushBackTimer = 0.5f;
+            isAttacked = false;
+            gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        }
+
     }
 
 
@@ -89,9 +140,17 @@ public class Enemy : MonoBehaviour
         if (!isAttacked)
         {
             if (collision.gameObject.tag == "wall" && moveLeft)
+            {
                 moveLeft = false;
+                gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            }
+
             else if (collision.gameObject.tag == "wall")
+            {
                 moveLeft = true;
+                gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            }
+
         }
 
 
@@ -119,30 +178,12 @@ public class Enemy : MonoBehaviour
         {
             enemyHealth -= 1;
 
-            // Debug.Log("Hit Back");
-            //transform.position = new Vector2(transform.position.x + 0.5f, transform.position.y + 0.001f);
             playerObj = collision.gameObject.transform.parent.gameObject;
-            //this.gameObject.GetComponent<Rigidbody2D>().AddForce(transform.up * -(knockBackForce / 10));
             isAttacked = true;
             if (enemyHealth <= 0 && !immortal)
                 Destroy(gameObject);
 
         }
-    }
-
-    void FixedUpdate()
-    {
-        if (isAttacked && pushBackTimer > 0)
-        {
-            pushBackTimer -= Time.deltaTime;
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + knockBackForce, transform.position.y), 3f);
-        }
-        else if (pushBackTimer <= 0)
-        {
-            pushBackTimer = 0.5f;
-            isAttacked = false;
-        }
-
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
