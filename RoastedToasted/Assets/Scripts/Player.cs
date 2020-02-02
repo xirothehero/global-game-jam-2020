@@ -289,9 +289,14 @@ public class Player : MonoBehaviour
                 if (GameManager.instance.camera.transitionAreas[i] == collision.gameObject)
                 {
                     if (GameManager.instance.camera.counter == i)
-                        GameManager.instance.camera.NextPoint(i+1, i);
+                    {
+                        GameManager.instance.camera.NextPoint(i + 1, i);
+                    }
+
                     else
+                    {
                         GameManager.instance.camera.NextPoint(i, i);
+                    }
                 }
             }
         }

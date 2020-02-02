@@ -12,10 +12,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Segment> _segList;
     [SerializeField] private GameObject player1;
     public CameraScript camera;
+    GameObject go;
     private int _currentSegment;
 
     private void Awake()
     {
+        go = GameObject.FindWithTag("MainCamera");
+        camera = go.GetComponent<CameraScript>();
         if (instance == null)
         {
             DontDestroyOnLoad(gameObject);

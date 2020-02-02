@@ -15,6 +15,7 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(counter);
         if (Vector2.Distance(transform.position, cameraPoints[counter].transform.position) >= 0.2f)
         {
             transitionAreas[counterTransition].SetActive(false);
@@ -32,5 +33,6 @@ public class CameraScript : MonoBehaviour
     {
         counter = setCounter;
         counterTransition = setOtherCounter;
+        transitionAreas[counterTransition].SetActive(false);
     }
 }

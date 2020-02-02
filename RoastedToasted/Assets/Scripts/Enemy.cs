@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
     float pushBackTimer = 0.5f;
 
     float deathTimer = 1f;
-    bool death = false;
+    bool dead = false;
 
     Animator enemyAnimator;
 
@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
     {
         returnCount = countDown;
         orgAttackCoolDown = attackCoolDown;
-        enemyAnimator = GetComponent<Animator>();
+        enemyAnimator = this.gameObject.GetComponent<Animator>();
     }
 
     void Update()
@@ -138,6 +138,19 @@ public class Enemy : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
         }
 
+        if (dead)
+        {
+            enemyAnimator.SetBool("death", true);
+            deathTimer -= Time.deltaTime;
+            if (deathTimer <= 0)
+            {
+                deathTimer = 1f;
+                dead = false;
+                Destroy(gameObject);
+            }
+
+        }
+
     }
 
 
@@ -157,7 +170,7 @@ public class Enemy : MonoBehaviour
         }
 
         if (collision.gameObject.tag == "kill")
-            Destroy(gameObject);
+            dead = true;;
 
     }
 
@@ -192,7 +205,7 @@ public class Enemy : MonoBehaviour
             playerObj = collision.gameObject.transform.parent.gameObject;
             isAttacked = true;
             if (enemyHealth <= 0 && !immortal)
-                StartDeath();
+                dead = true;;
 
         }
 
@@ -200,18 +213,6 @@ public class Enemy : MonoBehaviour
         if (!isAttacked)
         {
             ToggleDirection(collision.gameObject);
-        }
-    }
-
-    void StartDeath()
-    {
-        enemyAnimator.SetBool("death", true);
-        while (deathTimer > 0)
-        {
-            Debug.Log("Going");
-            deathTimer -= Time.deltaTime;
-            if (deathTimer <= 0)
-                Destroy(gameObject);
         }
     }
 
