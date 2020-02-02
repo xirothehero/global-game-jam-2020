@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    public bool selected;
-    public Sprite completedSprite;
     private Vector3 offset;
+    public Sprite completedSprite;
     public bool set = false;
     private Color color;
 
+    [Range(0.1f, 1f)]
+    public float opacity = 0.5f;
+
+    private void Start() {
+        color = GetComponent<SpriteRenderer>().material.color;
+    }
     private void OnMouseDown() {
-        //TODO: check if player is not on platform 
-        if(true) {
-           selected = true;
+        if(!set) {
+           color.a = opacity;
+           GetComponent<SpriteRenderer>().material.color = color;
            offset = transform.position;
            offset -= Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));       
         }
@@ -36,6 +41,8 @@ public class Platform : MonoBehaviour
         }
     }
     private void OnMouseUp() {
+        color.a = 1;
+        GetComponent<SpriteRenderer>().material.color = color;
         GetComponent<BoxCollider2D>().enabled = true;
     }
 
