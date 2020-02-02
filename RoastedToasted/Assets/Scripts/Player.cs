@@ -25,7 +25,6 @@ public class Player : MonoBehaviour
     Vector2 orgPos;
     Rigidbody2D rb;
     int orgHealth;
-    bool isFlying = false;
     bool isMovingLeft = false;
     bool isMovingRight = false;
 
@@ -97,10 +96,10 @@ public class Player : MonoBehaviour
         // For flash effect for player
         if (wasDamaged && flashEffectTimer > 0)
         {
-            if (attackCoolDown <= 0)
+            if (flashEffectCoolDown <= 0)
             {
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                attackCoolDown = 0.05f;
+                flashEffectCoolDown = 0.05f;
             }
             else
             {
