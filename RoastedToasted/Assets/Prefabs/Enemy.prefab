@@ -130,10 +130,10 @@ MonoBehaviour:
   knockBackForce: 0.05
   countDown: 5
   attackCoolDown: 2
-  canFollow: 1
-  canKnockBack: 1
+  canFollow: 0
+  canKnockBack: 0
   immortal: 0
-  moveLeft: 1
+  moveLeft: 0
 --- !u!50 &2561035694187802557
 Rigidbody2D:
   serializedVersion: 4
