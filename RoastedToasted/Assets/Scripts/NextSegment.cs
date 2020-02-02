@@ -21,7 +21,6 @@ public class NextSegment : MonoBehaviour
         if (other.tag.Equals("Player"))
         {
             GameManager.instance.IncrementSegment();
-            Debug.Log("Next Segment!");
         }
     }
 }

@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 7116543799102717551}
   - component: {fileID: 7116543799102717521}
   - component: {fileID: 7116543799102717520}
+  - component: {fileID: 5217800709118464520}
   m_Layer: 0
   m_Name: NextTrigger
   m_TagString: Untagged
@@ -133,6 +134,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31d0b997f9fac9b498a0e95619825208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5217800709118464520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7116543799102717550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ad80bafa9ed824a82cddba47d96648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platforms: []
 --- !u!1 &7116543799579665330
 GameObject:
   m_ObjectHideFlags: 0
