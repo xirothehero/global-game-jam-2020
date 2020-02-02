@@ -3156,7 +3156,7 @@ GameObject:
   - component: {fileID: 1437596325}
   m_Layer: 0
   m_Name: leaficon1
-  m_TagString: Untagged
+  m_TagString: finishPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3789,7 +3789,7 @@ PrefabInstance:
     - target: {fileID: 6103499167409490503, guid: 90fbecc432a3c934292b03b0ef288896,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 61.32
+      value: 60.5
       objectReference: {fileID: 0}
     - target: {fileID: 6103499167409490503, guid: 90fbecc432a3c934292b03b0ef288896,
         type: 3}
@@ -4280,7 +4280,7 @@ PrefabInstance:
     - target: {fileID: 6103499167409490503, guid: 90fbecc432a3c934292b03b0ef288896,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 78.72
+      value: 78.45
       objectReference: {fileID: 0}
     - target: {fileID: 6103499167409490503, guid: 90fbecc432a3c934292b03b0ef288896,
         type: 3}
@@ -5246,7 +5246,7 @@ PrefabInstance:
     - target: {fileID: 6103499167409490503, guid: 90fbecc432a3c934292b03b0ef288896,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 44.92
+      value: 43.94
       objectReference: {fileID: 0}
     - target: {fileID: 6103499167409490503, guid: 90fbecc432a3c934292b03b0ef288896,
         type: 3}

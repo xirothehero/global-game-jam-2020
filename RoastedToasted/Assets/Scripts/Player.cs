@@ -239,7 +239,7 @@ public class Player : MonoBehaviour
     {
         life--;
         if (life <= 0){
-            SceneManager.LoadScene("lose");
+            SceneManager.LoadScene("LoseScreen");
         }
         health = orgHealth;
         canMoveLeft = true;
@@ -257,7 +257,7 @@ public class Player : MonoBehaviour
             TakeDamage(damageTaken);
 
         if (collision.gameObject.tag == "gameOver")
-            SceneManager.LoadScene("lose");
+            SceneManager.LoadScene("LoseScreen");
 
         if (collision.gameObject.tag == "wall" && isMovingRight)
         {
