@@ -87,6 +87,11 @@ public class Player : MonoBehaviour
 
         animator.SetFloat("Speed", speedRate);
 
+        if (Input.GetKey(KeyCode.F1))
+        {
+            SceneManager.LoadScene("Main Menu");
+        }
+
         if (attackCoolDown > 0)
             attackCoolDown -= Time.deltaTime;
 
