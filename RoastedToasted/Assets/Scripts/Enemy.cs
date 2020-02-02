@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
     string state = "patrolling";
     public bool moveLeft = false;
     public float speedOfEnemy = 5;
+    public int enemyHealth;
+
 
     [Tooltip("Count down for when the enemy loses sight of player to go back to patrol.")]
     public float countDown = 5;
@@ -73,12 +75,29 @@ public class Enemy : MonoBehaviour
    
     }
 
+    IEnumerator KnockBack()
+    {
+        Vector2 thisPos = transform.position;
+        while (transform.position.x <= (thisPos.x + 50))
+        {
+            transform.position = new Vector2(transform.position.x + 0.5f, transform.position.y+0.1f);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "wall" && moveLeft)
             moveLeft = false;
         else if (collision.gameObject.tag == "wall")
             moveLeft = true;
+
+        if (collision.gameObject.tag == "player" && !canFollow)
+        {
+            playerObj = collision.gameObject;
+            playerObj.GetComponent<Player>().health -= playerObj.GetComponent<Player>().damageTaken ;
+        }
 
     }
 
@@ -89,6 +108,20 @@ public class Enemy : MonoBehaviour
             state = "chasing";
             lostSight = false;
             playerObj = collision.gameObject;
+        }
+
+        if (collision.gameObject.tag == "attack")
+        {
+            enemyHealth -= 1;
+            if (enemyHealth <= 0)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                Debug.Log("Starting knockback");
+                StartCoroutine("KnockBack");
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
