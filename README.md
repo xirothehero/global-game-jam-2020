@@ -2,19 +2,17 @@
 
 ##### Overview
 
-```
-Two birds are thrown down into the Forest when the world shatters. Leaf and his flightless husband, Autumn fight through The Fall to get back to SkyVillage.
-```
+_Two birds are thrown down into the Forest when the world shatters. Leaf and his flightless husband, Autumn fight through The Fall to get back to SkyVillage._
 
 This game is a 2D platformer made during Global Game Jam 2020. The main idea is that segments of the level are broken, so obstacles and platforms need to be rearranged to make the level clearable. The game was originally to be a co-op game - with one player controlling Autumn to get through the game and the other controlling Leaf to move around objects in the broken segments - but it's doable with only one person too.
 
 ##### Controls
 
-**WASD** - Move (Autumn)
-**SHIFT** - Run (Autumn)
-**SPACE** - Attack/Advance Cutscene (Autumn)
-**MOUSE HOLD** - Select object (Leaf)
-**MOUSE DRAG** - Move object (Leaf)
+**WASD** - Move (Autumn)  
+**SHIFT** - Run (Autumn)  
+**SPACE** - Attack/Advance Cutscene (Autumn)  
+**MOUSE HOLD** - Select object (Leaf)  
+**MOUSE DRAG** - Move object (Leaf)  
 
 ##### Builds
 
@@ -35,9 +33,9 @@ The latest build is available on the [itch.io page](https://xirothehero.itch.io/
 
 ##### Credits
 
-Ali Kedwaii - Programming, Music
-Dylan Stilwell - Programming
-Justin Wu - Programming, Level Design
-Ashley Poprik - Narrative Director
-Terry Nguyen - 2D Art, Animation
+Ali Kedwaii - Programming, Music  
+Dylan Stilwell - Programming  
+Justin Wu - Programming, Level Design  
+Ashley Poprik - Narrative Director  
+Terry Nguyen - 2D Art, Animation  
 Valeria Trevino - 2D Art, Animation
