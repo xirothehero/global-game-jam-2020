@@ -4,7 +4,7 @@
 
 _Two birds are thrown down into the Forest when the world shatters. Leaf and his flightless husband, Autumn fight through The Fall to get back to SkyVillage._
 
-This game is a 2D platformer made during Global Game Jam 2020. The main idea is that segments of the level are broken, so obstacles and platforms need to be rearranged to make the level clearable. The game was originally to be a co-op game - with one player controlling Autumn to get through the game and the other controlling Leaf to move around objects in the broken segments - but it's doable with only one person too.
+This game is a 2D platformer made during Global Game Jam 2020. The main idea is that segments of the level are broken, so obstacles and platforms need to be rearranged to make the level clearable. The game was originally designed to be a co-op game - with one player controlling Autumn to get through the game and the other controlling Leaf to move around objects in the broken segments - but it's doable with only one person too.
 
 ##### Controls
 
