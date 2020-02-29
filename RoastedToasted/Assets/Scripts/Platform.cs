@@ -54,7 +54,7 @@ public class Platform : MonoBehaviour
     private void OnMouseUp() {
         color.a = 1;
         GetComponent<SpriteRenderer>().material.color = color;
-        GetComponent<BoxCollider2D>().isTrigger = true;
+        GetComponent<BoxCollider2D>().isTrigger = false;
         
         if (isInPlayer)
         {

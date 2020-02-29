@@ -9,7 +9,8 @@ public class Player : MonoBehaviour
     public GameObject shape;
 
     [Header("Player stats")]
-    public float walkSpeed = 0.05f;
+    [Tooltip("Default value is 30f")]
+    public float walkSpeed = 30f;
     public float runSpeed = 0.1f;
     public float jumpForce = 5f;
     public int health = 100;
@@ -51,6 +52,9 @@ public class Player : MonoBehaviour
 
     public float attackCoolDown = 2;
     float orgCoolDown;
+
+    // The position of the ground just before the player jumps
+    float groundPos = 0;
 
     float check;
     float check2;
@@ -112,11 +116,6 @@ public class Player : MonoBehaviour
 
 
 
-        if (attackCoolDown > 0)
-            attackCoolDown -= Time.deltaTime;
-        else
-            attackCoolDown = orgCoolDown;
-
 
 
 
@@ -128,12 +127,18 @@ public class Player : MonoBehaviour
             attackBox.SetActive(true);
             animator.SetBool("attacking", true);
             source.PlayOneShot(attack);
+            attackCoolDown = orgCoolDown;
         }
         else
         {
             attackBox.SetActive(false);
             animator.SetBool("attacking", false);
         }
+
+
+        if (attackCoolDown > 0)
+            attackCoolDown -= Time.deltaTime;
+  
 
 
 
@@ -145,13 +150,13 @@ public class Player : MonoBehaviour
             flashEffectCoolDown -= Time.deltaTime;
             if (flashEffectCoolDown <= 0)
             {
-                Debug.Log("Off");
+               // Debug.Log("Off");
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 flashEffectCoolDown = 0.05f;
             }
             else
             {
-                Debug.Log("On");
+                //Debug.Log("On");
                 gameObject.GetComponent<SpriteRenderer>().enabled = true;
                 attackCoolDown -= Time.deltaTime;
             }
@@ -183,7 +188,7 @@ public class Player : MonoBehaviour
   
         }
 
-
+        //print(isFalling);
         // While they aren't on the ground, keep checking to see if they
         // are beginning to fall or not
         if (!isGrounded)
@@ -203,19 +208,26 @@ public class Player : MonoBehaviour
 
         }
 
-
         // Play falling down animation at the last moment
-        if (!isGrounded && isFalling)
+        if (isFalling)
         {
-            RaycastHit2D hit = Physics2D.Linecast(transform.position, -Vector2.up, whatIsGround);
-            float distance = Mathf.Abs(hit.point.y - transform.position.y);
-            if (distance > temp || hit.point.y * -1 > temp - 0.3)
+            RaycastHit2D hit = Physics2D.BoxCast(groundCheck.position, new Vector2(3, 5), 0, -Vector2.up, 5, whatIsGround);
+            if (hit.distance < temp)
             {
+                //print("hit.distance is less then temp");
+                print(hit.distance + " Distance success");
+                print(temp + " temp success");
+                animator.SetBool("jumping", false);
                 animator.SetBool("fallingDown", true);
+                isFalling = false;
             }
-
-            animator.SetBool("jumping", false);
         }
+        //else if (isGrounded && isFalling)
+        //{
+        //    animator.SetBool("jumping", false);
+        //    animator.SetBool("fallingDown", true);
+        //}
+
 
 
     }
@@ -295,7 +307,6 @@ public class Player : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
         if (collision.gameObject.tag == "kill")
             TakeDamage(100);
         
