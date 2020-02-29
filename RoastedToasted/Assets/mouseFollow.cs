@@ -39,7 +39,7 @@ public class mouseFollow : MonoBehaviour
         
         if (direction.x > 0.01 && !right) {
             GetComponent<SpriteRenderer>().flipX = true;
-            print("right");
+            //print("right");
             right = true;
 
         } else if ( direction.x < -0.01 && right) {

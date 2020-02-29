@@ -39,10 +39,23 @@ public class Player : MonoBehaviour
 
     bool isLeft = false;
 
-    private bool isFalling = false;
+    private bool isFalling = true;
+
+    private bool isGrounded = true;
+
+
+    public Transform groundCheck;
+    [Tooltip("Default value for checkRadius is 0.3f")]
+    public float checkRadius = 0.3f;
+    public LayerMask whatIsGround;
 
     public float attackCoolDown = 2;
     float orgCoolDown;
+
+    float check;
+    float check2;
+
+    bool inEnemy = false;
 
 
     [Tooltip("How long should the flash effect be for the player")]
@@ -51,11 +64,13 @@ public class Player : MonoBehaviour
     float flashEffectCoolDown = 0.05f;
     bool wasDamaged = false;
 
+
+    public float temp = 2.55f;
     int life = 3;
 
     void Start()
     {
-        rb = this.gameObject.GetComponent<Rigidbody2D>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
         orgPos = this.transform.position;
         animator = GetComponent<Animator>();
         orgHealth = health;
@@ -75,25 +90,34 @@ public class Player : MonoBehaviour
         Vector2 curPos = this.transform.position;
         float speedRate = 0;
 
-        if (Input.GetKey(KeyCode.LeftShift) && rb.velocity.y == 0)
-        {
-            speedRate = runSpeed;
-        }
-        else if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
+        //if (Input.GetKey(KeyCode.LeftShift) && rb.velocity.y == 0)
+        //{
+        //    speedRate = runSpeed;
+        //}
+        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
             speedRate = walkSpeed;
 
-        if (speedRate != 0 && !source.isPlaying && rb.velocity.y == 0)
+        if (speedRate != 0 && !source.isPlaying && isGrounded)
             source.PlayOneShot(walk);
 
         animator.SetFloat("Speed", speedRate);
 
+
+        // Just a shortcut to get back to the main menu
         if (Input.GetKey(KeyCode.F1))
         {
             SceneManager.LoadScene("Main Menu");
         }
 
+
+
+
         if (attackCoolDown > 0)
             attackCoolDown -= Time.deltaTime;
+
+
+
+
 
         // Attacking Mechanic
         if (Input.GetKeyDown(KeyCode.Space) && attackCoolDown <= 0 )
@@ -105,15 +129,17 @@ public class Player : MonoBehaviour
         }
         else
         {
+            attackCoolDown = orgCoolDown;
             attackBox.SetActive(false);
             animator.SetBool("attacking", false);
         }
 
 
 
-        // For flash effect for player
+        // For flash effect for player when damaged
         if (wasDamaged && flashEffectTimer > 0)
         {
+            Debug.Log("Flash Effect playing?");
             if (flashEffectCoolDown <= 0)
             {
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;
@@ -138,93 +164,102 @@ public class Player : MonoBehaviour
 
 
 
-
-
-
-
-        //if (Input.GetKey(KeyCode.D) && canMoveRight)
-        // Move Right
-        if (Input.GetKey(KeyCode.D) && canMoveRight)
+        if (isGrounded)
         {
-            isMovingRight = true;
-            if (!canMoveLeft)
-                canMoveLeft = true;
-            //this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
-            this.transform.position = new Vector2(curPos.x + speedRate, curPos.y);
+            animator.SetBool("fallingDown", false);
+            if (isFalling)
+            {
+                source.PlayOneShot(land);
+                isFalling = false;
+                check2 = -5;
+                check = 0;
+            }
+  
+        }
+
+
+        // While they aren't on the ground, keep checking to see if they
+        // are beginning to fall or not
+        if (!isGrounded)
+        {
+            check = transform.position.y;
+
+            if (check2 < check)
+            {
+                check2 = check;
+                isFalling = false;
+            }
+            else
+            {
+                isFalling = true;
+            }
+
+
+        }
+
+
+        // Play falling down animation at the last moment
+        if (!isGrounded && isFalling)
+        {
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, -Vector2.up, whatIsGround);
+            float distance = Mathf.Abs(hit.point.y - transform.position.y);
+            if (distance > temp || hit.point.y * -1 > temp - 0.3)
+            {
+                animator.SetBool("fallingDown", true);
+            }
+
+            animator.SetBool("jumping", false);
+        }
+
+
+    }
+
+    void FixedUpdate()
+    {
+
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+
+        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+        {
+            animator.SetBool("jumping", true);
+            rb.velocity = Vector2.up * jumpForce;
+        }
+
+
+
+
+        // Checking until the player is starting to fall
+        // to then play a falling animation
+
+
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            rb.position = new Vector2(rb.position.x + walkSpeed * Time.deltaTime, rb.position.y);
+
             if (isLeft)
             {
                 transform.rotation = new Quaternion(0f, 0f, 0f, 0);
                 isLeft = false;
             }
-
         }
-        else
-            isMovingRight = false;
-        //if (Input.GetKey(KeyCode.A) && canMoveLeft)
-        if (Input.GetKey(KeyCode.A) && canMoveLeft)
+        else if (Input.GetKey(KeyCode.A))
         {
-            if (!canMoveRight)
-            {
-                canMoveRight = true;
-            }
+            rb.position = new Vector2(rb.position.x - walkSpeed * Time.deltaTime, rb.position.y);
 
-
-            isMovingLeft = true;
             if (!isLeft)
             {
                 isLeft = true;
                 transform.rotation = new Quaternion(0f, 180f, 0f, 0);
             }
-
-            this.transform.position = new Vector2(curPos.x - speedRate, curPos.y);
-        }
-        else
-            isMovingLeft = false;
-
-
-
-
-
-
-
-
-
-
-
-        float check2 = 0;
-        float check = rb.velocity.y;
-
-        if (check2 <= check)
-            check2 = check;
-        else if (check != 0)
-        {
-            animator.SetBool("jumping", false);
-            animator.SetBool("fallingDown", true);
-            if (!isFalling)
-                isFalling = true;
         }
 
-        //Debug.Log(rb.velocity.y);
 
-        if (Input.GetKeyDown(KeyCode.W) && rb.velocity.y == 0)
-        {
-            animator.SetBool("jumping", true);
-            rb.velocity = Vector2.up * jumpForce;
-        }
-        else if (rb.velocity.y == 0)
-        {
-            animator.SetBool("fallingDown", false);
-            check = 0;
-            
-            if (isFalling)
-            {
-                source.PlayOneShot(land);
-                isFalling = false;
-            }
-        }
-        //Debug.Log(health);
+
 
     }
+
+
 
     public void TakeDamage(int dmg)
     {
@@ -242,10 +277,10 @@ public class Player : MonoBehaviour
 
     void Respawn()
     {
-        life--;
-        if (life <= 0){
-            SceneManager.LoadScene("LoseScreen");
-        }
+        //life--;
+        //if (life <= 0){
+        //    SceneManager.LoadScene("LoseScreen");
+        //}
         health = orgHealth;
         canMoveLeft = true;
         canMoveRight = true;
@@ -259,10 +294,14 @@ public class Player : MonoBehaviour
             TakeDamage(100);
         
         if (collision.gameObject.tag == "enemy")
+        {
             TakeDamage(damageTaken);
+            inEnemy = true;
+        }
+ 
 
-        if (collision.gameObject.tag == "gameOver")
-            SceneManager.LoadScene("LoseScreen");
+        //if (collision.gameObject.tag == "gameOver")
+        //    SceneManager.LoadScene("LoseScreen");
 
         if (collision.gameObject.tag == "wall" && isMovingRight)
         {
@@ -293,40 +332,30 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "nextSegment")
-        {
-            for (int i = 0; i < GameManager.instance.camera.transitionAreas.Length; i++)
-            {
-                if (GameManager.instance.camera.transitionAreas[i] == collision.gameObject)
-                {
-                    if (GameManager.instance.camera.counter == i)
-                    {
-                        GameManager.instance.camera.NextPoint(i + 1, i);
-                    }
+        //if (collision.gameObject.tag == "nextSegment")
+        //{
+        //    for (int i = 0; i < GameManager.instance.camera.transitionAreas.Length; i++)
+        //    {
+        //        if (GameManager.instance.camera.transitionAreas[i] == collision.gameObject)
+        //        {
+        //            if (GameManager.instance.camera.counter == i)
+        //            {
+        //                GameManager.instance.camera.NextPoint(i + 1, i);
+        //            }
 
-                    else
-                    {
-                        GameManager.instance.camera.NextPoint(i, i);
-                    }
-                }
-            }
-        }
+        //            else
+        //            {
+        //                GameManager.instance.camera.NextPoint(i, i);
+        //            }
+        //        }
+        //    }
+        //}
         if (collision.gameObject.tag == "hurt")
             TakeDamage(100);
-            
+
+        else if (collision.gameObject.tag == "enemy")
+            inEnemy = false;
+
     }
 
-    //private void OnCollisionExit(Collision collision)
-    //{
-
-    //    if (collision.gameObject.tag == "wall" && !canMoveLeft)
-    //        canMoveLeft = true;
-
-    //    else if (collision.gameObject.tag == "wall" && !canMoveRight)
-    //        canMoveRight = true;
-
-
-    //    Debug.Log(canMoveLeft + " Left collision for can move left");
-    //    Debug.Log(canMoveRight + " Left collision for can move Right");
-    //}
 }
