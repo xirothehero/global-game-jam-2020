@@ -139,14 +139,18 @@ public class Player : MonoBehaviour
         // For flash effect for player when damaged
         if (wasDamaged && flashEffectTimer > 0)
         {
-            Debug.Log("Flash Effect playing?");
+            //Debug.Log("Flash Effect playing?");
+
+            flashEffectCoolDown -= Time.deltaTime;
             if (flashEffectCoolDown <= 0)
             {
+                Debug.Log("Off");
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 flashEffectCoolDown = 0.05f;
             }
             else
             {
+                Debug.Log("On");
                 gameObject.GetComponent<SpriteRenderer>().enabled = true;
                 attackCoolDown -= Time.deltaTime;
             }
@@ -155,6 +159,7 @@ public class Player : MonoBehaviour
             if (flashEffectTimer <= 0)
             {
                 wasDamaged = false;
+                gameObject.GetComponent<SpriteRenderer>().enabled = true;
                 flashEffectTimer = orgFlashEffectTimer;
             }
         }
@@ -296,7 +301,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "enemy")
         {
             TakeDamage(damageTaken);
-            inEnemy = true;
+            //inEnemy = true;
         }
  
 
