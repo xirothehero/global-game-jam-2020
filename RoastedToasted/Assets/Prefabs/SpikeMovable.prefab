@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3587253443827098022}
   m_Layer: 0
   m_Name: SpikeMovable
-  m_TagString: hurt
+  m_TagString: kill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
