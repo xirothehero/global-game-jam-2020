@@ -114,6 +114,8 @@ public class Player : MonoBehaviour
 
         if (attackCoolDown > 0)
             attackCoolDown -= Time.deltaTime;
+        else
+            attackCoolDown = orgCoolDown;
 
 
 
@@ -122,14 +124,13 @@ public class Player : MonoBehaviour
         // Attacking Mechanic
         if (Input.GetKeyDown(KeyCode.Space) && attackCoolDown <= 0 )
         {
-            attackCoolDown = orgCoolDown;
+            //attackCoolDown = orgCoolDown;
             attackBox.SetActive(true);
             animator.SetBool("attacking", true);
             source.PlayOneShot(attack);
         }
         else
         {
-            attackCoolDown = orgCoolDown;
             attackBox.SetActive(false);
             animator.SetBool("attacking", false);
         }

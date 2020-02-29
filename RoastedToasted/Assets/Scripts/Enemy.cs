@@ -176,6 +176,20 @@ public class Enemy : MonoBehaviour
 
     void ToggleDirection(GameObject plyobj)
     {
+        if (plyobj.tag == "ground" && moveLeft)
+        {
+            moveLeft = false;
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
+
+        else if (plyobj.tag == "ground" && moveLeft)
+        {
+            moveLeft = true;
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        
+        
+        
         if (plyobj.tag == "wall" && moveLeft)
         {
             moveLeft = false;
